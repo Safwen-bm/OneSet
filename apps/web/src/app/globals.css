@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Light — the default. Cool paper, near-black ink, one cobalt accent. */
+    --paper: 60 9% 96%;
+    --surface: 0 0% 100%;
+    --raised: 60 6% 93%;
+    --ink: 225 12% 7%;
+    --muted: 220 5% 44%;
+    --hairline: 45 8% 88%;
+    --accent: 233 100% 57%;
+    --accent-ink: 0 0% 100%;
+    --accent-soft: 233 100% 96%;
+    --positive: 152 54% 34%;
+    --warning: 35 92% 42%;
+    --danger: 2 72% 48%;
+  }
+
+  .dark {
+    --paper: 228 13% 6%;
+    --surface: 228 12% 9%;
+    --raised: 228 11% 13%;
+    --ink: 225 20% 96%;
+    --muted: 222 9% 62%;
+    --hairline: 226 10% 18%;
+    --accent: 232 100% 68%;
+    --accent-ink: 228 25% 8%;
+    --accent-soft: 232 40% 16%;
+    --positive: 152 44% 52%;
+    --warning: 38 90% 58%;
+    --danger: 2 76% 62%;
+  }
+
+  * {
+    border-color: hsl(var(--hairline));
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: hsl(var(--paper));
+    color: hsl(var(--ink));
+    font-feature-settings: 'cv05' 1, 'ss01' 1;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: hsl(var(--accent));
+    color: hsl(var(--accent-ink));
+  }
+
+  :focus-visible {
+    outline: 2px solid hsl(var(--accent));
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display), system-ui, sans-serif;
+    font-weight: 600;
+  }
+}
+
+@layer components {
+  /* The structural motif: a hairline column grid that content snaps to. */
+  .set-grid {
+    background-image: linear-gradient(to right, hsl(var(--hairline)) 1px, transparent 1px);
+    background-size: calc(100% / 6) 100%;
+  }
+
+  .hairline-x > * + * {
+    border-top: 1px solid hsl(var(--hairline));
+  }
+
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
