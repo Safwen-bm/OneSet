@@ -61,7 +61,7 @@ export function ProductCard({ product, priority }: { product: Product; priority?
             aria-pressed={mounted ? compared : false}
             aria-label={compared ? `Remove ${product.name} from comparison` : `Add ${product.name} to comparison`}
             className={cn(
-              'grid h-9 w-9 place-items-center rounded-full border border-hairline bg-surface/90 backdrop-blur transition-[color,transform] duration-150 ease-set active:scale-90 disabled:cursor-not-allowed disabled:opacity-40 disabled:active:scale-100',
+              'relative z-10 grid h-9 w-9 place-items-center rounded-full border border-hairline bg-surface/90 backdrop-blur transition-[color,transform] duration-150 ease-set active:scale-90 disabled:cursor-not-allowed disabled:opacity-40 disabled:active:scale-100',
               mounted && compared ? 'text-accent' : 'text-muted hover:text-ink',
             )}
           >
