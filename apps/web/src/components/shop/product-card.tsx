@@ -78,7 +78,7 @@ export function ProductCard({ product, priority }: { product: Product; priority?
           aria-pressed={mounted ? saved : false}
           aria-label={saved ? `Remove ${product.name} from wishlist` : `Save ${product.name}`}
           className={cn(
-            'absolute right-2 top-2 grid h-9 w-9 place-items-center rounded-full border border-hairline bg-surface/90 backdrop-blur transition-[color,transform] duration-150 ease-set active:scale-90',
+            'absolute right-2 top-2 z-10 grid h-9 w-9 place-items-center rounded-full border border-hairline bg-surface/90 backdrop-blur transition-[color,transform] duration-150 ease-set active:scale-90',
             mounted && saved ? 'text-accent' : 'text-muted hover:text-ink',
           )}
         >
@@ -93,7 +93,7 @@ export function ProductCard({ product, priority }: { product: Product; priority?
         {soldOut ? null : needsChoice ? (
           <Link
             href={`/products/${product.slug}`}
-            className="absolute bottom-2 left-2 right-2 flex h-10 items-center justify-center gap-2 rounded-full bg-surface text-sm font-medium text-ink opacity-0 shadow-sm transition-opacity duration-200 focus-visible:opacity-100 group-hover:opacity-100 max-md:opacity-100"
+            className="absolute bottom-2 left-2 right-2 z-10 flex h-10 items-center justify-center gap-2 rounded-full bg-surface text-sm font-medium text-ink opacity-0 shadow-sm transition-opacity duration-200 focus-visible:opacity-100 group-hover:opacity-100 max-md:opacity-100"
           >
             <SlidersHorizontal className="h-3.5 w-3.5" />
             Choose {product.variants[0]?.optionName.toLowerCase() ?? 'option'}
@@ -102,7 +102,7 @@ export function ProductCard({ product, priority }: { product: Product; priority?
           <button
             type="button"
             onClick={quickAdd}
-            className="absolute bottom-2 left-2 right-2 flex h-10 items-center justify-center gap-2 rounded-full bg-ink text-sm font-medium text-paper opacity-0 transition-[opacity,transform] duration-200 ease-set focus-visible:opacity-100 group-hover:opacity-100 active:scale-[0.97] max-md:opacity-100"
+            className="absolute bottom-2 left-2 right-2 z-10 flex h-10 items-center justify-center gap-2 rounded-full bg-ink text-sm font-medium text-paper opacity-0 transition-[opacity,transform] duration-200 ease-set focus-visible:opacity-100 group-hover:opacity-100 active:scale-[0.97] max-md:opacity-100"
           >
             {added ? <Check className="h-4 w-4 motion-safe:animate-pop" /> : <Plus className="h-4 w-4" />}
             {added ? 'Added' : 'Quick add'}
