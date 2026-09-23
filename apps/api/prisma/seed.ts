@@ -27,8 +27,78 @@ const slugify = (input: string) =>
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)/g, '');
 
-/** Images are gradient tokens until real assets land — see README, "Product imagery". */
-const gradientToken = (slug: string) => `gradient:${slug}`;
+/** Real product photos hosted on Cloudinary, 2 per category. Products cycle through this pool. */
+const CATEGORY_IMAGES: Record<string, string[]> = {
+  chairs: [
+    'https://res.cloudinary.com/safonecoding/image/upload/v1790170871/fadoul-m-CIs7k5TlOic-unsplash_fy1t4i.jpg',
+    'https://res.cloudinary.com/safonecoding/image/upload/v1790170866/alphacolor-vYn0dh6K6e0-unsplash_muyjdz.jpg',
+  ],
+  'console-accessories': [
+    'https://res.cloudinary.com/safonecoding/image/upload/v1790171042/tamara-bitter-JIrjoWIgFAs-unsplash_tlglff.jpg',
+    'https://res.cloudinary.com/safonecoding/image/upload/v1790171040/martin-katler-caNzzoxls8Q-unsplash_vwdqoq.jpg',
+  ],
+  controllers: [
+    'https://res.cloudinary.com/safonecoding/image/upload/v1790170552/javier-martinez-hUD0PUczwJQ-unsplash_bsj3h4.jpg',
+    'https://res.cloudinary.com/safonecoding/image/upload/v1790170552/igor-karimov-M1nZU61xTK4-unsplash_zqwi1m.jpg',
+  ],
+  desks: [
+    'https://res.cloudinary.com/safonecoding/image/upload/v1790170952/josh-sorenson-Z4CScbvnAiY-unsplash_xp16hq.jpg',
+    'https://res.cloudinary.com/safonecoding/image/upload/v1790170947/faizur-rehman-vDTIPOi8cek-unsplash_pmqtjt.jpg',
+  ],
+  'graphics-cards': [
+    'https://res.cloudinary.com/safonecoding/image/upload/v1790170642/nana-dua-1-Sfd9QSPi4-unsplash_limdqv.jpg',
+    'https://res.cloudinary.com/safonecoding/image/upload/v1790170641/thomas-foster-vWgoeEYdtIY-unsplash_ib3hlh.jpg',
+  ],
+  headsets: [
+    'https://res.cloudinary.com/safonecoding/image/upload/v1790170333/ismail-abdulla-bSPN_kWjUdQ-unsplash_r5ymq5.jpg',
+    'https://res.cloudinary.com/safonecoding/image/upload/v1790170332/andrey-matveev-huF_odQnpMo-unsplash_nxpe47.jpg',
+  ],
+  keyboards: [
+    'https://res.cloudinary.com/safonecoding/image/upload/v1790170275/jl-cabrera-4GzqVNX0TCQ-unsplash_nmwii2.jpg',
+    'https://res.cloudinary.com/safonecoding/image/upload/v1790170268/bestami-sarikaya-jtNUtM0wy5I-unsplash_rtcrks.jpg',
+  ],
+  memory: [
+    'https://res.cloudinary.com/safonecoding/image/upload/v1790171286/ian-talmacs-7PSKG7iAh7g-unsplash_i4zciq.jpg',
+    'https://res.cloudinary.com/safonecoding/image/upload/v1790171231/andrey-matveev-SqtwTNQrt2o-unsplash_xewidh.jpg',
+  ],
+  mice: [
+    'https://res.cloudinary.com/safonecoding/image/upload/v1790170295/mohammadreza-alidoost-FcbVHv3cD9o-unsplash_vdyi8m.jpg',
+    'https://res.cloudinary.com/safonecoding/image/upload/v1790170293/rebekah-yip-wMT0oiL5XjA-unsplash_aqbcbq.jpg',
+  ],
+  microphones: [
+    'https://res.cloudinary.com/safonecoding/image/upload/v1790171359/ritupon-baishya-tVv4i-X3yBE-unsplash_nvtipv.jpg',
+    'https://res.cloudinary.com/safonecoding/image/upload/v1790171322/daniel-alexander-NeMCl7zWY9M-unsplash_xnxs9t.jpg',
+  ],
+  monitors: [
+    'https://res.cloudinary.com/safonecoding/image/upload/v1790170487/seyed-sina-fazeli-XP9JF6jyRGc-unsplash_swwk3k.jpg',
+    'https://res.cloudinary.com/safonecoding/image/upload/v1790170486/linus-mimietz-01hQvBUC7rI-unsplash_lfgldg.jpg',
+  ],
+  processors: [
+    'https://res.cloudinary.com/safonecoding/image/upload/v1790170694/slejven-djurakovic-0uXzoEzYZ4I-unsplash_vdx85o.jpg',
+    'https://res.cloudinary.com/safonecoding/image/upload/v1790170691/remy-FeEpYGZX8Lc-unsplash_j15l6i.jpg',
+  ],
+  speakers: [
+    'https://res.cloudinary.com/safonecoding/image/upload/v1790171457/sayan-majhi-QvZtx6mC9Ug-unsplash_gmcksy.jpg',
+    'https://res.cloudinary.com/safonecoding/image/upload/v1790171454/behnam-norouzi-y0K8EMigxV4-unsplash_ffnp2m.jpg',
+  ],
+  storage: [
+    'https://res.cloudinary.com/safonecoding/image/upload/v1790171182/samsung-memory-m587InP07os-unsplash_btgorx.jpg',
+    'https://res.cloudinary.com/safonecoding/image/upload/v1790171114/michael-kahn-nblNyrwRiwE-unsplash_drv3sy.jpg',
+  ],
+  webcams: [
+    'https://res.cloudinary.com/safonecoding/image/upload/v1790171429/jakub-zerdzicki-PcxB6pJN7wE-unsplash_lufpei.jpg',
+    'https://res.cloudinary.com/safonecoding/image/upload/v1790171425/emiliano-cicero-lq87UxGSiEQ-unsplash_fq5c43.jpg',
+  ],
+};
+
+/** Returns the category's Nth image (wrapping around the pool), so a product's 3 photos aren't all identical. */
+const categoryImage = (categorySlug: string, index: number): string => {
+  const pool = CATEGORY_IMAGES[categorySlug];
+  if (!pool || pool.length === 0) {
+    throw new Error(`No images configured for category "${categorySlug}"`);
+  }
+  return pool[index % pool.length];
+};
 
 interface CategoryBlueprint {
   name: string;
@@ -633,9 +703,21 @@ async function main() {
           categoryId: category.id,
           images: {
             create: [
-              { url: gradientToken(slug), alt: `${name} front view`, position: 0 },
-              { url: gradientToken(`${slug}-2`), alt: `${name} side view`, position: 1 },
-              { url: gradientToken(`${slug}-3`), alt: `${name} in a desk setup`, position: 2 },
+              {
+                url: categoryImage(blueprint.slug, i),
+                alt: `${name} front view`,
+                position: 0,
+              },
+              {
+                url: categoryImage(blueprint.slug, i),
+                alt: `${name} side view`,
+                position: 1,
+              },
+              {
+                url: categoryImage(blueprint.slug, i),
+                alt: `${name} in a desk setup`,
+                position: 2,
+              },
             ],
           },
           specifications: {
