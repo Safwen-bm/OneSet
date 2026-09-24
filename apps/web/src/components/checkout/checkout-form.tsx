@@ -78,10 +78,8 @@ function StubPaymentForm({
   return (
     <div className="space-y-4">
       <div className="rounded-tile border border-dashed border-hairline bg-raised/50 p-4">
-        <p className="text-sm text-ink">Demo payment no card is charged.</p>
-        <p className="mt-1 text-micro text-muted">
-          Add STRIPE_SECRET_KEY (API) and NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY (web) to switch this to a
-          real Stripe Elements form. No code changes needed.
+        <p className="text-sm text-ink">
+          This is a demo checkout. No payment will be charged.
         </p>
         <div className="mt-4 grid gap-3 opacity-50">
           <div className="flex h-11 items-center rounded-full border border-hairline bg-surface px-4 text-sm text-muted">

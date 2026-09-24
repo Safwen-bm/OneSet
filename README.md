@@ -1,53 +1,40 @@
-# OneSet
+# OneSet — Full-Stack E-Commerce Platform
 
-A full-stack e-commerce demo for a premium gaming/desk-setup store. Built to show a complete, working product — not a UI mockup: real auth, a real cart, real Stripe-ready checkout, an admin dashboard, and a few less-common features (a rule-based setup builder, a compatibility checker, natural-language search).
+OneSet is a complete e-commerce platform for a gaming and desk-setup store, built to demonstrate a full production-style build rather than a UI mockup: real authentication, a real cart, a real Stripe-integrated checkout, an admin dashboard, and a few features that go beyond a typical store template — a rule-based setup builder, a data-driven compatibility checker, and natural-language search.
+
+**Live demo:** [[add your URL](https://oneset-three.vercel.app/)]
 
 **Customer login:** `demo@oneset.tn` / `Password123`
 
 ---
 
-## Stack
+## What was built
 
-- **Web:** Next.js 14 (App Router), TypeScript, Tailwind, Zustand, TanStack Query
-- **API:** NestJS, Prisma, PostgreSQL, JWT auth
-- **Payments:** Stripe Elements — falls back to a working demo payment flow when no keys are set, so checkout is fully testable without a Stripe account
-- **Tests:** Vitest (unit) + Playwright (e2e)
-- **Monorepo:** npm workspaces, shared types/logic in `packages/types`
+**Storefront** — Product catalog with filtering, sorting, and search, including a natural-language parser that turns a query like `"wireless mouse under 300 TND"` into real category/price/tag filters without calling an AI model. Product pages with variants, specs, and reviews. A cart that persists for guests and syncs to an account on login.
 
-## Features
+**Accounts & checkout** — JWT-based auth (access + refresh tokens), saved addresses, and a checkout flow that creates real orders. Stripe Elements is wired in behind a feature flag: with no API key set, a built-in demo payment mode lets the whole flow — including order confirmation — be tested without a Stripe account; adding a key switches to real Stripe payments with no code changes.
 
-- Catalog with filtering, sorting, and a natural-language search box (`"wireless mouse under 300 TND"` → real filters, no AI, just a parser)
-- Cart, wishlist, and a checkout flow that produces real orders
-- Reviews gated to people who actually bought the product
-- Admin dashboard: revenue/orders overview, product & category management, order status control
-- **Setup builder** (`/builder`): give it a budget and a style, get a proposed setup from a documented, rule-based allocation algorithm — not random
-- **Compatibility checker** (`/compatibility`): flags incompatible part pairings (e.g. DDR4 RAM on a DDR5-only CPU) using rules stored in the database, not hardcoded logic
-- Product comparison, up to 4 items side by side
+**Admin dashboard** — Revenue and order metrics, low-stock alerts, and full CRUD for products, categories and order status, gated to admin accounts.
 
-## Quick start
+**Setup builder** — Give it a budget and a style (Performance / Balanced / Aesthetic) and it proposes a complete setup using a documented, rule-based budget-allocation algorithm — each style spends the same six product categories, just in different proportions, rather than picking anything at random.
 
-Needs Node 20+ and Docker.
+**Compatibility checker** — Flags incompatible part pairings (e.g. DDR4 memory on a DDR5-only CPU) by evaluating rules stored in the database against product specs, so a new rule doesn't require new code.
 
-```bash
-npm install
-cp .env.example apps/api/.env
-cp apps/web/.env.example apps/web/.env.local
-npm run db:up
-npm run db:migrate
-npm run db:seed
-npm run dev
-```
+**Reviews & comparison** — Reviews are gated to people who actually bought the product being reviewed. Products can be compared side by side, up to four at once.
 
-Web on `:3000`, API on `:4000/api`, Swagger docs at `:4000/api/docs`.
+---
 
-Leaving `NEXT_PUBLIC_API_URL` empty runs the storefront on bundled sample data — no backend needed to browse.
+## Tech stack
 
-## Testing
-
-```bash
-npm run test       # unit tests — cart math, search parser, compatibility engine, setup builder
-npm run test:e2e   # e2e — full register → cart → checkout → order flow (Playwright)
-```
+| Layer | Technology | Why |
+|---|---|---|
+| Frontend | Next.js 14 (App Router), TypeScript, Tailwind CSS | Server and client rendering where each fits, typed end to end |
+| State | Zustand, TanStack Query | Client state (cart, auth, UI) kept separate from server state (catalog, orders) |
+| Backend | NestJS, TypeScript | Modular REST API — auth, products, orders and admin as separate modules |
+| Database | PostgreSQL, Prisma ORM | Typed queries and migrations |
+| Payments | Stripe Elements | Real payment intents, with a working fallback for demoing without live keys |
+| Testing | Vitest, Playwright | Unit tests on the core business logic (cart totals, search parsing, compatibility rules, the builder's allocation algorithm), plus an end-to-end test on the full checkout flow |
+| Infra | npm workspaces monorepo, Docker (local Postgres) | Shared types and logic between frontend and backend in one package |
 
 ## Architecture
 
@@ -80,12 +67,35 @@ flowchart LR
     Commerce -- "PaymentIntent" --> Stripe
 ```
 
-One NestJS process, one Postgres database — the boxes above are logical modules (`apps/api/src/*`), not separate services. The web app never talks to Postgres or Stripe directly, everything goes through the API.
+One NestJS process backs the whole API — the boxes above are logical modules (`apps/api/src/*`), not separate deployed services. The web app never talks to Postgres or Stripe directly; every request goes through the API, which is what enforces auth, validates input, and owns the business rules.
 
-## Notes
+**Money** is stored as integer millimes (1 TND = 1000) everywhere, never as a float, to avoid rounding bugs in cart totals and discounts.
 
-- **Money** is stored as integer millimes (1 TND = 1000) everywhere, never floats — see `packages/types/src/money.ts`.
-- **Product images** are currently deterministic placeholder gradients rather than real photography (the brands are invented, so there's no real product photography to use) — real images are the next thing to swap in.
-- Tokens live in `localStorage` for simplicity; a production version of this would move the refresh token to an httpOnly cookie.
+---
 
-This is a portfolio project. The brands, products and prices are invented.
+## Running it locally
+
+Needs Node 20+ and Docker.
+
+```bash
+npm install
+cp .env.example apps/api/.env
+cp apps/web/.env.example apps/web/.env.local
+npm run db:up
+npm run db:migrate
+npm run db:seed
+npm run dev
+```
+
+Web runs on `:3000`, API on `:4000/api`, Swagger docs at `:4000/api/docs`.
+
+```bash
+npm run test       # unit tests
+npm run test:e2e   # end-to-end checkout flow (Playwright)
+```
+
+---
+
+## License
+
+See [LICENSE](./LICENSE). All rights reserved — this is a portfolio project, and the brand, products and prices are invented.
