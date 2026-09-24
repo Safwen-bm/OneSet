@@ -21,7 +21,16 @@ export function ProductMedia({
   children?: React.ReactNode;
 }) {
   const gradient = isGradientUrl(url);
-  const zoomClass = zoom ? 'transition-transform duration-500 ease-set group-hover:scale-110' : undefined;
+  const zoomClass = zoom
+    ? 'transition-transform duration-500 ease-set group-hover:scale-110'
+    : undefined;
+
+  const optimizedUrl = url
+    ? url.replace(
+        '/image/upload/',
+        '/image/upload/f_auto,q_auto,w_600/',
+      )
+    : undefined;
 
   return (
     <div
@@ -47,9 +56,12 @@ export function ProductMedia({
       ) : (
         // eslint-disable-next-line @next/next/no-img-element
         <img
-          src={url!}
+          src={optimizedUrl}
           alt={alt}
-          className={cn('absolute inset-0 h-full w-full object-cover', zoomClass)}
+          className={cn(
+            'absolute inset-0 h-full w-full object-cover',
+            zoomClass,
+          )}
           loading="lazy"
         />
       )}
