@@ -1,3 +1,7 @@
+'use client';
+
+import Image from 'next/image';
+
 const NOTES = [
   {
     label: 'STOCK',
@@ -21,10 +25,13 @@ export function ServiceNotes() {
     <section className="relative w-full overflow-hidden border-t border-white/10 bg-neutral-950 text-neutral-100 py-12 lg:py-24">
       {/* Background Image Container */}
       <div className="absolute inset-0 z-0">
-        <img
+        <Image
           src="/images/service-notes-bg.jpg"
           alt="Hardware Stock, Compatibility Verification, and Local Warranty Station"
-          className="h-full w-full object-cover object-center opacity-85 brightness-95"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center opacity-85 brightness-95"
         />
         {/* Soft gradient overlay ensures text contrast without obscuring the background */}
         <div className="absolute inset-0 bg-gradient-to-b from-neutral-950/80 via-neutral-950/30 to-neutral-950/80" />

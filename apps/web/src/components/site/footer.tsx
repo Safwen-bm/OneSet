@@ -57,7 +57,9 @@ export function Footer() {
           {/* Newsletter / Drop Alert Block */}
           <div className="p-8 sm:p-10 lg:col-span-5 flex flex-col justify-between space-y-6 bg-raised/40">
             <div className="space-y-1">
-              <span className="font-mono text-xs uppercase tracking-wider text-accent font-semibold">// NEWSLETTER</span>
+              <span className="font-mono text-xs uppercase tracking-wider text-accent font-semibold">
+                {'// NEWSLETTER'}
+              </span>
               <h4 className="font-display text-sm font-semibold text-ink">Stay synced with gear drops</h4>
             </div>
             <form onSubmit={(e) => e.preventDefault()} className="flex items-center border border-hairline bg-surface focus-within:border-accent">
@@ -81,11 +83,11 @@ export function Footer() {
           {/* Socials / Meta Column */}
           <div className="p-8 flex flex-col justify-between space-y-8">
             <div className="space-y-2">
-              <span className="font-mono text-xs text-muted">// ECOSYSTEM</span>
+              <span className="font-mono text-xs text-muted">{'// ECOSYSTEM'}</span>
               <p className="font-mono text-xs text-ink uppercase tracking-wider font-semibold">OneSet / Deskware</p>
             </div>
             <div className="space-y-3 font-mono text-xs">
-              <span className="text-muted block">// CONNECT</span>
+              <span className="text-muted block">{'// CONNECT'}</span>
               <div className="flex flex-col space-y-2">
                 {SOCIALS.map((social) => (
                   <a
@@ -106,7 +108,9 @@ export function Footer() {
           {/* Category Link Columns */}
           {COLUMNS.map((column) => (
             <div key={column.title} className="p-8 space-y-4">
-              <span className="font-mono text-xs uppercase tracking-wider text-accent font-semibold">// {column.title}</span>
+              <span className="font-mono text-xs uppercase tracking-wider text-accent font-semibold">
+                {'// '}{column.title}
+              </span>
               <ul className="space-y-2.5 text-sm font-sans">
                 {column.links.map((link) => (
                   <li key={link.label}>
