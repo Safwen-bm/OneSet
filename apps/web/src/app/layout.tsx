@@ -39,7 +39,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <SessionSync />
           <SampleDataNotice />
           <Header />
-          <main id="main">{children}</main>
+          <main id="main" className="pt-16">
+            {children}
+          </main>
           <Footer />
           <CartDrawer />
           <CompareBar />

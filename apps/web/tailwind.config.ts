@@ -71,6 +71,10 @@ const config: Config = {
           '40%': { transform: 'scale(1.18)' },
           '100%': { transform: 'scale(1)' },
         },
+        marquee: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
       },
       animation: {
         'slot-in': 'slot-in 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both',
@@ -78,6 +82,7 @@ const config: Config = {
         'fade-in': 'fade-in 0.2s ease-out',
         'icon-in': 'icon-in 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) both',
         pop: 'pop 0.35s cubic-bezier(0.2, 0.8, 0.2, 1)',
+        marquee: 'marquee 26s linear infinite',
       },
     },
   },

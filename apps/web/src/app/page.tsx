@@ -12,9 +12,7 @@ export default function HomePage() {
       <CategoryGrid />
       <SetupsRail />
       <FeaturedRail />
-      <div className="container">
-        <RecentlyViewedRail title="Welcome back pick up where you left off" />
-      </div>
+      <RecentlyViewedRail />
       <ServiceNotes />
     </>
   );
