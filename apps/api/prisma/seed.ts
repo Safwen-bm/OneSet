@@ -629,7 +629,7 @@ async function main() {
     data: {
       email: 'admin@oneset.tn',
       passwordHash: await bcrypt.hash('Admin123!', 10),
-      firstName: 'Nadia',
+      firstName: 'Safwen',
       lastName: 'Admin',
       role: 'ADMIN',
       emailVerified: true,
