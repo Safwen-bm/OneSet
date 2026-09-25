@@ -1,6 +1,6 @@
 # OneSet — Full-Stack E-Commerce Platform
 
-OneSet is a complete e-commerce platform for a gaming and desk-setup store, built to demonstrate a full production-style build rather than a UI mockup: real authentication, a real cart, a real Stripe-integrated checkout, an admin dashboard, and a few features that go beyond a typical store template — a rule-based setup builder, a data-driven compatibility checker, and natural-language search.
+OneSet is a complete e-commerce platform for a gaming and desk-setup store, built to demonstrate a full production-style build rather than a UI mockup: real authentication, a real cart, a real Stripe-integrated checkout, an admin dashboard, and a few features that go beyond a typical store template a rule-based setup builder, a data-driven compatibility checker, and natural-language search.
 
 **Live demo:** [[add your URL](https://oneset-three.vercel.app/)]
 
@@ -12,11 +12,11 @@ OneSet is a complete e-commerce platform for a gaming and desk-setup store, buil
 
 **Storefront** — Product catalog with filtering, sorting, and search, including a natural-language parser that turns a query like `"wireless mouse under 300 TND"` into real category/price/tag filters without calling an AI model. Product pages with variants, specs, and reviews. A cart that persists for guests and syncs to an account on login.
 
-**Accounts & checkout** — JWT-based auth (access + refresh tokens), saved addresses, and a checkout flow that creates real orders. Stripe Elements is wired in behind a feature flag: with no API key set, a built-in demo payment mode lets the whole flow — including order confirmation — be tested without a Stripe account; adding a key switches to real Stripe payments with no code changes.
+**Accounts & checkout** — JWT-based auth (access + refresh tokens), saved addresses, and a checkout flow that creates real orders. Stripe Elements is wired in behind a feature flag: with no API key set, a built-in demo payment mode lets the whole flow including order confirmation be tested without a Stripe account; adding a key switches to real Stripe payments with no code changes.
 
 **Admin dashboard** — Revenue and order metrics, low-stock alerts, and full CRUD for products, categories and order status, gated to admin accounts.
 
-**Setup builder** — Give it a budget and a style (Performance / Balanced / Aesthetic) and it proposes a complete setup using a documented, rule-based budget-allocation algorithm — each style spends the same six product categories, just in different proportions, rather than picking anything at random.
+**Setup builder** — Give it a budget and a style (Performance / Balanced / Aesthetic) and it proposes a complete setup using a documented, rule-based budget-allocation algorithm each style spends the same six product categories, just in different proportions, rather than picking anything at random.
 
 **Compatibility checker** — Flags incompatible part pairings (e.g. DDR4 memory on a DDR5-only CPU) by evaluating rules stored in the database against product specs, so a new rule doesn't require new code.
 
@@ -98,4 +98,4 @@ npm run test:e2e   # end-to-end checkout flow (Playwright)
 
 ## License
 
-See [LICENSE](./LICENSE). All rights reserved — this is a portfolio project, and the brand, products and prices are invented.
+See [LICENSE](./LICENSE). All rights reserved this is a portfolio project, and the brand, products and prices are invented.
